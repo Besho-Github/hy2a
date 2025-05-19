@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Plus, 
@@ -12,7 +12,8 @@ import {
   Settings, 
   Clock, 
   Wrench, 
-  AlertTriangle 
+  AlertTriangle,
+  X
 } from 'lucide-react';
 import { mockMaintenanceRecords, mockVehicles, mockServiceCenters } from '../../data/mockData';
 
@@ -29,6 +30,72 @@ const MaintenanceList: React.FC = () => {
   const [showTypeDropdown, setShowTypeDropdown] = useState(false);
   const [showVehicleDropdown, setShowVehicleDropdown] = useState(false);
   const [viewMode, setViewMode] = useState<'list' | 'cards'>('cards');
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [formData, setFormData] = useState({
+    vehicleId: '',
+    maintenanceType: 'routine',
+    serviceDate: new Date().toISOString().split('T')[0],
+    description: '',
+    cost: '',
+    serviceCenterId: '',
+    status: 'scheduled',
+    nextServiceDue: '',
+    notes: '',
+    mileage: ''
+  });
+
+  useEffect(() => {
+    // Add style tag to fix calendar picker icon color
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .date-input::-webkit-calendar-picker-indicator,
+      .time-input::-webkit-calendar-picker-indicator {
+        filter: invert(1) brightness(100%);
+      }
+      
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(1) brightness(100%);
+        opacity: 1;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Cleanup function to remove the style tag when component unmounts
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
+  // Handle form input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  // Handle form submission
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Here you would typically send the data to your API
+    console.log('Form submitted:', formData);
+    
+    // Close the modal and reset form
+    setShowAddModal(false);
+    setFormData({
+      vehicleId: '',
+      maintenanceType: 'routine',
+      serviceDate: new Date().toISOString().split('T')[0],
+      description: '',
+      cost: '',
+      serviceCenterId: '',
+      status: 'scheduled',
+      nextServiceDue: '',
+      notes: '',
+      mileage: ''
+    });
+  };
 
   // Filter the maintenance records based on search term and filters
   const filteredRecords = mockMaintenanceRecords.filter(record => {
@@ -195,12 +262,244 @@ const MaintenanceList: React.FC = () => {
           >
             قائمة
           </button>
-          <button className="btn btn-primary inline-flex items-center mr-2">
-            <Plus className="w-4 h-4 ml-2" />
+          <button 
+            className="btn btn-primary inline-flex items-center mr-2"
+            onClick={() => setShowAddModal(true)}
+          >
+            <Plus className="w-4 h-4 ml-2 dark:text-white" />
             إضافة سجل صيانة
           </button>
         </div>
       </div>
+
+      {/* Add Maintenance Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div 
+            className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+            onClick={() => setShowAddModal(false)}
+          >
+            <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+              <div className="absolute inset-0 bg-gray-500 dark:bg-[#040404] opacity-75"></div>
+            </div>
+
+            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            
+            <div 
+              className="inline-block align-bottom card-bg rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full p-6 dark:bg-[#101010]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-4">
+                <button
+                  onClick={() => setShowAddModal(false)}
+                  className="text-gray-400 hover:text-gray-500 focus:outline-none"
+                >
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                  إضافة سجل صيانة جديد
+                </h3>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Vehicle Selection */}
+                  <div>
+                    <label htmlFor="vehicleId" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      المركبة *
+                    </label>
+                    <select
+                      id="vehicleId"
+                      name="vehicleId"
+                      className="input mt-1 dark:bg-[#1a1a1a] dark:border-transparent"
+                      value={formData.vehicleId}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option value="" disabled>اختر المركبة</option>
+                      {mockVehicles.map(vehicle => (
+                        <option key={vehicle.id} value={vehicle.id}>
+                          {vehicle.plateNumber} - {vehicle.model} ({vehicle.year})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Maintenance Type */}
+                  <div>
+                    <label htmlFor="maintenanceType" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      نوع الصيانة *
+                    </label>
+                    <select
+                      id="maintenanceType"
+                      name="maintenanceType"
+                      className="input mt-1 dark:bg-[#1a1a1a] dark:border-transparent"
+                      value={formData.maintenanceType}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option value="routine">صيانة دورية</option>
+                      <option value="repair">إصلاح</option>
+                      <option value="emergency">طارئة</option>
+                    </select>
+                  </div>
+
+                  {/* Service Date */}
+                  <div>
+                    <label htmlFor="serviceDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      تاريخ الصيانة *
+                    </label>
+                    <input
+                      type="date"
+                      id="serviceDate"
+                      name="serviceDate"
+                      className="input mt-1 dark:bg-[#1a1a1a] dark:border-transparent dark:text-white"
+                      value={formData.serviceDate}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
+                  {/* Status */}
+                  <div>
+                    <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      الحالة *
+                    </label>
+                    <select
+                      id="status"
+                      name="status"
+                      className="input mt-1 dark:bg-[#1a1a1a] dark:border-transparent"
+                      value={formData.status}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option value="scheduled">مجدولة</option>
+                      <option value="in-progress">قيد التنفيذ</option>
+                      <option value="completed">مكتملة</option>
+                    </select>
+                  </div>
+
+                  {/* Description */}
+                  <div className="md:col-span-2">
+                    <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      وصف الصيانة *
+                    </label>
+                    <input
+                      type="text"
+                      id="description"
+                      name="description"
+                      className="input mt-1 dark:bg-[#1a1a1a] dark:border-transparent"
+                      value={formData.description}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
+                  {/* Cost */}
+                  <div>
+                    <label htmlFor="cost" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      التكلفة (درهم)
+                    </label>
+                    <input
+                      type="number"
+                      id="cost"
+                      name="cost"
+                      className="input mt-1 dark:bg-[#1a1a1a] dark:border-transparent"
+                      value={formData.cost}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+
+                  {/* Service Center */}
+                  <div>
+                    <label htmlFor="serviceCenterId" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      مركز الخدمة *
+                    </label>
+                    <select
+                      id="serviceCenterId"
+                      name="serviceCenterId"
+                      className="input mt-1 dark:bg-[#1a1a1a] dark:border-transparent"
+                      value={formData.serviceCenterId}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option value="" disabled>اختر مركز الخدمة</option>
+                      {mockServiceCenters.map(center => (
+                        <option key={center.id} value={center.id}>
+                          {center.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Mileage */}
+                  <div>
+                    <label htmlFor="mileage" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      قراءة عداد المسافة (كم)
+                    </label>
+                    <input
+                      type="number"
+                      id="mileage"
+                      name="mileage"
+                      className="input mt-1 dark:bg-[#1a1a1a] dark:border-transparent"
+                      value={formData.mileage}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+
+                  {/* Next Service Due */}
+                  <div>
+                    <label htmlFor="nextServiceDue" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      موعد الصيانة القادمة
+                    </label>
+                    <input
+                      type="date"
+                      id="nextServiceDue"
+                      name="nextServiceDue"
+                      className="input mt-1 dark:bg-[#1a1a1a] dark:border-transparent dark:text-white"
+                      value={formData.nextServiceDue}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+
+                  {/* Notes */}
+                  <div className="md:col-span-2">
+                    <label htmlFor="notes" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      ملاحظات إضافية
+                    </label>
+                    <textarea
+                      id="notes"
+                      name="notes"
+                      rows={3}
+                      className="input mt-1 dark:bg-[#1a1a1a] dark:border-transparent"
+                      value={formData.notes}
+                      onChange={handleInputChange}
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div className="flex justify-end mt-4">
+                  <button
+                    type="button"
+                    className="btn bg-[#101010] text-white hover:bg-[#252525] dark:bg-[#1a1a1a] dark:hover:bg-[#252525]"
+                    onClick={() => setShowAddModal(false)}
+                  >
+                    إلغاء
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn ml-2 mr-2 inline-flex items-center bg-[#101010] text-white hover:bg-[#252525] dark:bg-[#1a1a1a] dark:hover:bg-[#252525]"
+                  >
+                    حفظ سجل الصيانة
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Search and Filters */}
       <div className="card-bg rounded-lg shadow-lg p-4">

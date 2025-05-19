@@ -4,7 +4,7 @@ import { Car, AlertTriangle } from 'lucide-react';
 
 const NotFound: React.FC = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-[#0f0f0f]">
       <div className="flex items-center justify-center mb-8">
         <AlertTriangle className="h-12 w-12 text-warning-600 dark:text-warning-400 mr-3" />
         <Car className="h-12 w-12 text-primary-600 dark:text-primary-400" />

@@ -35,7 +35,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen flex flex-col justify-center px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-[#101010]">
       <div className="absolute top-4 right-4">
         <button
           onClick={toggleTheme}
@@ -66,7 +66,7 @@ const Login: React.FC = () => {
           </p>
         </div>
         
-        <div className="card-bg py-8 px-6 shadow rounded-lg">
+        <div className="card-bg py-8 px-6 shadow rounded-lg dark:bg-[#0f0f0f] dark:shadow-none">
           {error && (
             <div className="mb-4 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 p-3 rounded">
               {error}
@@ -90,7 +90,7 @@ const Login: React.FC = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="input pl-10"
+                  className="input pl-10 dark:bg-[#1a1a1a] dark:border-transparent"
                   placeholder="example@fleetgov.com"
                 />
               </div>
@@ -112,7 +112,7 @@ const Login: React.FC = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="input pl-10 pr-10"
+                  className="input pl-10 pr-10 dark:bg-[#1a1a1a] dark:border-transparent"
                   placeholder="••••••••"
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -155,7 +155,7 @@ const Login: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 ${
+                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#1a1a1a] hover:bg-[#2a2a2a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 ${
                   isLoading ? 'opacity-70 cursor-not-allowed' : ''
                 }`}
               >
@@ -180,7 +180,7 @@ const Login: React.FC = () => {
                 <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 card-bg text-gray-500 dark:text-gray-400">
+                <span className="px-2 card-bg text-gray-500 dark:text-gray-400 dark:bg-[#0f0f0f]">
                   بيانات الدخول التجريبية
                 </span>
               </div>

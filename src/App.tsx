@@ -16,8 +16,11 @@ import DriverDetails from './pages/Drivers/DriverDetails';
 import TripList from './pages/Trips/TripList';
 import TripDetails from './pages/Trips/TripDetails';
 import MaintenanceList from './pages/Maintenance/MaintenanceList';
+import MaintenanceDetails from './pages/Maintenance/MaintenanceDetails';
 import FuelList from './pages/Fuel/FuelList';
+import FuelDetails from './pages/Fuel/FuelDetails';
 import Documents from './pages/Documents/Documents';
+import DocumentDetails from './pages/Documents/DocumentDetails';
 import Reports from './pages/Reports/Reports';
 import Settings from './pages/Settings/Settings';
 import NotFound from './pages/NotFound';
@@ -44,8 +47,11 @@ function App() {
             <Route path="الرحلات" element={<TripList />} />
             <Route path="الرحلات/:id" element={<TripDetails />} />
             <Route path="الصيانة" element={<MaintenanceList />} />
+            <Route path="الصيانة/:id" element={<MaintenanceDetails />} />
             <Route path="الوقود" element={<FuelList />} />
+            <Route path="الوقود/:id" element={<FuelDetails />} />
             <Route path="المستندات" element={<Documents />} />
+            <Route path="المستندات/:id" element={<DocumentDetails />} />
             <Route path="التقارير" element={<Reports />} />
             <Route path="الإعدادات" element={<Settings />} />
           </Route>
