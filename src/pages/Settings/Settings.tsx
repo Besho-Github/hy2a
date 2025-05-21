@@ -290,127 +290,150 @@ const Settings: React.FC = () => {
 
         {/* Add/Edit User Form Modal */}
         {showAddUserForm && (
-          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
-            <div className="relative bg-white dark:bg-[#101010] rounded-lg shadow-lg max-w-md w-full mx-4">
-              <div className="flex justify-between items-center p-5">
-                <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                  {editingUserId ? 'تعديل المستخدم' : 'إضافة مستخدم جديد'}
-                </h3>
-                <button
-                  onClick={resetForm}
-                  className="text-gray-400 hover:text-gray-500"
-                >
-                  <X className="w-6 h-6" />
-                </button>
+          <div className="fixed inset-0 z-50 overflow-y-auto">
+            <div 
+              className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+              onClick={() => resetForm()}
+            >
+              <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div className="absolute inset-0 bg-gray-500 dark:bg-[#040404] opacity-75"></div>
               </div>
-              <div className="p-6 space-y-4">
-                {formError && (
-                  <div className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 text-sm p-3 rounded flex items-center mb-4">
-                    <AlertTriangle className="w-5 h-5 mr-2" />
-                    <span>{formError}</span>
-                  </div>
-                )}
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الاسم</label>
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md shadow-sm focus:ring-[#333333] focus:border-[#333333] dark:bg-[#1a1a1a] dark:text-white border-0"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">البريد الإلكتروني</label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md shadow-sm focus:ring-[#333333] focus:border-[#333333] dark:bg-[#1a1a1a] dark:text-white border-0"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="role" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">نوع المستخدم</label>
-                  <select
-                    name="role"
-                    id="role"
-                    value={formData.role}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md shadow-sm focus:ring-[#333333] focus:border-[#333333] dark:bg-[#1a1a1a] dark:text-white border-0"
+
+              <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+              
+              <div 
+                className="inline-block align-bottom card-bg rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full p-6 bg-white dark:bg-[#101010]"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="flex justify-between items-center mb-6">
+                  <button
+                    onClick={resetForm}
+                    className="text-gray-400 hover:text-gray-500 focus:outline-none"
                   >
-                    <option value="user">مستخدم</option>
-                    <option value="admin">مدير النظام</option>
-                    <option value="manager">مدير</option>
-                    <option value="driver">سائق</option>
-                  </select>
+                    <X className="h-6 w-6" />
+                  </button>
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                    {editingUserId ? 'تعديل المستخدم' : 'إضافة مستخدم جديد'}
+                  </h3>
                 </div>
-                {(!editingUserId || showPasswordForm) && (
-                  <div>
-                    <div className="flex justify-between">
-                      <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">كلمة المرور</label>
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="text-gray-500 dark:text-gray-400"
-                      >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </button>
+                
+                <div className="space-y-6">
+                  {formError && (
+                    <div className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 text-sm p-3 rounded flex items-center">
+                      <AlertTriangle className="w-5 h-5 mr-2" />
+                      <span>{formError}</span>
                     </div>
+                  )}
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">الاسم</label>
                     <input
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      id="password"
-                      value={formData.password}
+                      type="text"
+                      name="name"
+                      id="name"
+                      value={formData.name}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full rounded-md shadow-sm focus:ring-[#333333] focus:border-[#333333] dark:bg-[#1a1a1a] dark:text-white border-0"
-                      required={!editingUserId}
+                      placeholder="أدخل اسم المستخدم"
+                      className="mt-1 block w-full rounded-lg shadow-sm bg-white text-gray-900 border border-gray-300 focus:ring-1 focus:ring-black focus:border-black dark:bg-[#1a1a1a] dark:text-white dark:border-transparent py-3 h-12 px-4 transition-colors"
+                      required
                     />
                   </div>
-                )}
-                {editingUserId && !showPasswordForm && (
-                  <button
-                    onClick={() => setShowPasswordForm(true)}
-                    className="text-[#1a1a1a] hover:text-[#333333] dark:text-gray-300 dark:hover:text-white flex items-center text-sm"
-                  >
-                    <Key className="w-4 h-4 mr-1" />
-                    تغيير كلمة المرور
-                  </button>
-                )}
-                <div>
-                  <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">الحالة</label>
-                  <select
-                    name="status"
-                    id="status"
-                    value={formData.status}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md shadow-sm focus:ring-[#333333] focus:border-[#333333] dark:bg-[#1a1a1a] dark:text-white border-0"
-                  >
-                    <option value="active">نشط</option>
-                    <option value="inactive">غير نشط</option>
-                  </select>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">البريد الإلكتروني</label>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="example@domain.com"
+                      className="mt-1 block w-full rounded-lg shadow-sm bg-white text-gray-900 border border-gray-300 focus:ring-1 focus:ring-black focus:border-black dark:bg-[#1a1a1a] dark:text-white dark:border-transparent py-3 h-12 px-4 transition-colors"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="role" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">نوع المستخدم</label>
+                    <select
+                      name="role"
+                      id="role"
+                      value={formData.role}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full rounded-lg shadow-sm bg-white text-gray-900 border border-gray-300 focus:ring-1 focus:ring-black focus:border-black dark:bg-[#1a1a1a] dark:text-white dark:border-transparent py-3 h-12 px-4 appearance-none bg-no-repeat bg-right pr-10"
+                      style={{ backgroundImage: "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e\")", backgroundSize: "1.5em 1.5em", backgroundPosition: "right 0.5rem center" }}
+                    >
+                      <option value="user">مستخدم</option>
+                      <option value="admin">مدير النظام</option>
+                      <option value="manager">مدير</option>
+                      <option value="driver">سائق</option>
+                    </select>
+                  </div>
+                  {(!editingUserId || showPasswordForm) && (
+                    <div>
+                      <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">كلمة المرور</label>
+                      <div className="relative">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          name="password"
+                          id="password"
+                          value={formData.password}
+                          onChange={handleInputChange}
+                          placeholder="••••••••"
+                          className="mt-1 block w-full rounded-lg shadow-sm bg-white text-gray-900 border border-gray-300 focus:ring-1 focus:ring-black focus:border-black dark:bg-[#1a1a1a] dark:text-white dark:border-transparent py-3 h-12 px-4 transition-colors"
+                          required={!editingUserId}
+                        />
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-3 mt-1">
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="text-gray-500 dark:text-gray-400 focus:outline-none"
+                          >
+                            {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {editingUserId && !showPasswordForm && (
+                    <button
+                      onClick={() => setShowPasswordForm(true)}
+                      className="text-[#1a1a1a] hover:text-[#333333] dark:text-gray-300 dark:hover:text-white flex items-center text-sm"
+                    >
+                      <Key className="w-4 h-4 mr-1" />
+                      تغيير كلمة المرور
+                    </button>
+                  )}
+                  <div>
+                    <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">الحالة</label>
+                    <select
+                      name="status"
+                      id="status"
+                      value={formData.status}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full rounded-lg shadow-sm bg-white text-gray-900 border border-gray-300 focus:ring-1 focus:ring-black focus:border-black dark:bg-[#1a1a1a] dark:text-white dark:border-transparent py-3 h-12 px-4 appearance-none bg-no-repeat bg-right pr-10"
+                      style={{ backgroundImage: "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e\")", backgroundSize: "1.5em 1.5em", backgroundPosition: "right 0.5rem center" }}
+                    >
+                      <option value="active">نشط</option>
+                      <option value="inactive">غير نشط</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="px-6 py-3 flex justify-end space-x-2 rtl:space-x-reverse">
-                <button
-                  type="button"
-                  onClick={resetForm}
-                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
-                >
-                  إلغاء
-                </button>
-                <button
-                  type="button"
-                  onClick={handleAddUser}
-                  className="px-4 py-2 bg-[#1a1a1a] text-white rounded-md hover:bg-[#333333] dark:bg-[#1a1a1a] dark:hover:bg-[#333333] flex items-center transition-colors"
-                >
-                  <Save className="w-4 h-4 mr-1" />
-                  {editingUserId ? 'تحديث' : 'إضافة'}
-                </button>
+                
+                <div className="flex justify-end mt-6">
+                  <button
+                    type="button"
+                    onClick={resetForm}
+                    className="px-4 py-2 ml-2 rounded-md bg-[#101010] text-white hover:bg-[#252525] dark:bg-[#1a1a1a] dark:hover:bg-[#252525] inline-flex items-center transition-colors"
+                  >
+                    إلغاء
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleAddUser}
+                    className="px-4 py-2 ml-2 mr-2 rounded-md bg-[#101010] text-white hover:bg-[#252525] dark:bg-[#1a1a1a] dark:hover:bg-[#252525] inline-flex items-center transition-colors"
+                  >
+                    <Save className="w-4 h-4 mr-1" />
+                    {editingUserId ? 'تحديث' : 'إضافة'}
+                  </button>
+                </div>
               </div>
             </div>
           </div>

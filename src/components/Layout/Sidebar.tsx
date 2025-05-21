@@ -72,11 +72,11 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
         aria-hidden="true"
       ></div>
 
-      {/* Sidebar  rounded-tr-3xl rounded-br-3xl*/}
+      {/* Sidebar */}
       <div
         id="sidebar"
         ref={sidebar} 
-        className={`fixed z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-72 lg:sidebar flex-shrink-0 bg-black p-4 transition-all duration-200 ease-in-out ${
+        className={`fixed z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-72 lg:sidebar flex-shrink-0 bg-white dark:bg-black p-4 transition-all duration-200 ease-in-out ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-64'
         }`}
       >
@@ -85,13 +85,13 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
           {/* Logo */}
           <div className="flex items-center">
             <img src="/hy2a.png" alt="شعار ادارة المركبات" className="h-8 w-8" />
-            <span className="text-xl font-bold text-white ml-2">ادارة المركبات</span>
+            <span className="text-xl font-bold text-gray-900 dark:text-white ml-2">ادارة المركبات</span>
           </div>
           
           {/* Close button */}
           <button
             ref={trigger}
-            className="lg:hidden text-gray-400 hover:text-gray-200"
+            className="lg:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
             onClick={() => setSidebarOpen(!sidebarOpen)}
             aria-controls="sidebar"
             aria-expanded={sidebarOpen}
@@ -105,7 +105,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
         <div className="space-y-8">
           {/* Pages */}
           <div>
-            <h3 className="text-xs uppercase text-gray-400 font-semibold pl-3 mb-3">
+            <h3 className="text-xs uppercase text-gray-600 dark:text-gray-400 font-semibold pl-3 mb-3">
               القائمة الرئيسية
             </h3>
             <ul className="mt-3">
@@ -116,8 +116,8 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
                     className={({ isActive }) =>
                       `flex items-center px-3 py-2 rounded-lg text-sm font-medium transition duration-150 ${
                         isActive
-                          ? 'bg-[#101010] text-white'
-                          : 'text-gray-300 hover:text-white hover:bg-[#101010]'
+                          ? 'bg-gray-100 text-gray-900 dark:bg-[#101010] dark:text-white'
+                          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-[#101010]'
                       }`
                     }
                   >
@@ -131,7 +131,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
           
           {/* Tools */}
           <div>
-            <h3 className="text-xs uppercase text-gray-400 font-semibold pl-3 mb-3">
+            <h3 className="text-xs uppercase text-gray-600 dark:text-gray-400 font-semibold pl-3 mb-3">
               الأدوات
             </h3>
             <ul className="mt-3">
@@ -141,8 +141,8 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
                   className={({ isActive }) =>
                     `flex items-center px-3 py-2 rounded-lg text-sm font-medium transition duration-150 ${
                       isActive
-                        ? 'bg-[#101010] text-white'
-                        : 'text-gray-300 hover:text-white hover:bg-[#101010]'
+                        ? 'bg-gray-100 text-gray-900 dark:bg-[#101010] dark:text-white'
+                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-[#101010]'
                     }`
                   }
                 >
@@ -156,8 +156,8 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
                   className={({ isActive }) =>
                     `flex items-center px-3 py-2 rounded-lg text-sm font-medium transition duration-150 ${
                       isActive
-                        ? 'bg-[#101010] text-white'
-                        : 'text-gray-300 hover:text-white hover:bg-[#101010]'
+                        ? 'bg-gray-100 text-gray-900 dark:bg-[#101010] dark:text-white'
+                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-[#101010]'
                     }`
                   }
                 >

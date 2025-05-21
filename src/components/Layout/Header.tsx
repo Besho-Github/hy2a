@@ -13,7 +13,7 @@ const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   return (
-    <header className="sticky top-0 z-30 bg-[#000000] shadow-sm">
+    <header className="sticky top-0 z-30 bg-white dark:bg-[#000000] border-b border-gray-200 dark:border-transparent shadow-sm">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left: Hamburger + Title */}
@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
               <span className="sr-only">فتح القائمة</span>
               <Menu className="h-6 w-6" />
             </button>
-            <h1 className="text-xl font-semibold text-white ml-2">
+            <h1 className="text-xl font-semibold text-gray-900 dark:text-white ml-2">
               نظام ادارة المركبات
             </h1>
           </div>
@@ -49,7 +49,7 @@ const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
               >
                 <span className="sr-only">فتح قائمة المستخدم</span>
-                <div className="h-8 w-8 rounded-full bg-[#333333] text-white flex items-center justify-center">
+                <div className="h-8 w-8 rounded-full bg-gray-200 dark:bg-[#333333] text-gray-700 dark:text-white flex items-center justify-center">
                   {user?.avatar ? (
                     <img 
                       src={user.avatar} 
@@ -60,7 +60,7 @@ const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
                     <User className="h-5 w-5" />
                   )}
                 </div>
-                <span className="hidden md:block ml-2 text-sm font-medium text-white">
+                <span className="hidden md:block ml-2 text-sm font-medium text-gray-900 dark:text-white">
                   {user?.name}
                 </span>
               </button>
